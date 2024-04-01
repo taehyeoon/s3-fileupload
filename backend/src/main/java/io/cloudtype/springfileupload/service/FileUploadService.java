@@ -15,7 +15,7 @@ import java.io.IOException;
 @Log4j2
 public class FileUploadService {
 
-    private AmazonS3 s3Client;
+    private final AmazonS3 s3Client;
 
     @Value("${aws.s3.bucket}")
     private String bucketName;
