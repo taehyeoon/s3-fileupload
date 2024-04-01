@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import io.cloudtype.springfileupload.service.FileUploadService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@Log4j2
 @RequestMapping("/api")
 public class FileUploadController {
 
@@ -44,6 +46,7 @@ public class FileUploadController {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(new InputStreamResource(fileUploadService.getFile(fileName).getObjectContent()));
         } catch (AmazonS3Exception e) {
+            log.info(e);
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .build();
