@@ -1,6 +1,7 @@
 package io.cloudtype.springfileupload.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
@@ -31,6 +32,11 @@ public class FileUploadService {
     }
 
     public S3Object getFile(String keyName) {
-        return s3Client.getObject(bucketName, keyName);
+        try {
+            return s3Client.getObject(bucketName, keyName);
+        } catch (AmazonS3Exception e) {
+            log.error(e);
+            return null;
+        }
     }
 }
