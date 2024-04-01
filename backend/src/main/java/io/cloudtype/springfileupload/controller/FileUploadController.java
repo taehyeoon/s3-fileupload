@@ -40,17 +40,10 @@ public class FileUploadController {
     }
 
     @GetMapping("/download/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
-        try {
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws AmazonS3Exception{
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(new InputStreamResource(fileUploadService.getFile(fileName).getObjectContent()));
-        } catch (AmazonS3Exception e) {
-            log.info(e);
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-        }
     }
 
 }
