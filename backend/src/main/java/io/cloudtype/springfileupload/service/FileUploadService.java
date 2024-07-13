@@ -26,11 +26,8 @@ public class FileUploadService {
 
     public void uploadFile(String keyName, MultipartFile file) throws IOException {
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(file.getSize());
-
-        PutObjectResult putObjectResult = s3Client.putObject(bucketName, keyName, file.getInputStream(), metadata);
-        log.info(putObjectResult.getMetadata().toString());
+        PutObjectResult putObjectResult = s3Client.putObject(bucketName, keyName, file.getInputStream(), null);
+        log.info(putObjectResult.getMetadata());
     }
 
     public S3Object getFile(String keyName) {
