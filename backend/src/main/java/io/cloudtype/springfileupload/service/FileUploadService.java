@@ -25,8 +25,15 @@ public class FileUploadService {
     }
 
     public void uploadFile(String keyName, MultipartFile file) throws IOException {
-        PutObjectResult putObjectResult = s3Client.putObject(bucketName, keyName, file.getInputStream(), null);
-        log.info(putObjectResult.getMetadata());
+
+        // ObjectMetadata 객체 생성
+        ObjectMetadata metadata = new ObjectMetadata();
+        // 파일의 콘텐츠 길이 설정
+        metadata.setContentLength(file.getSize());
+
+        // PutObjectRequest에 metadata 전달
+        PutObjectResult putObjectResult = s3Client.putObject(bucketName, keyName, file.getInputStream(), metadata);
+        log.info(putObjectResult.getMetadata().toString());
     }
 
     public S3Object getFile(String keyName) {
